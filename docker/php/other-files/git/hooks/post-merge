@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+
+echo "Start deploying...";
+
+docker-compose exec -T php bin/console manager:deploy
+
+echo "Deploying ended";
+

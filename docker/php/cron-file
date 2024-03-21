@@ -1,0 +1,11 @@
+# After change this file you
+# must to re-build docker php container
+#
+# 5  4  3  *  1  At 04:05, on third day of month, on Monday
+# i  H  d  m  w  user command
+  0  3  *  *  *  root /usr/local/bin/php /var/www/html/bin/console manager:company:deactivate-expired
+  0  10 *  *  *  root /usr/local/bin/php /var/www/html/bin/console currency:rates:update
+  *  *  *  *  *  root /usr/local/bin/php /var/www/html/bin/console ikpu:import
+  */5  *  *  *  *  root /usr/local/bin/php /var/www/html/bin/console product:rating:make
+#  */5  *  *  *  *  root /usr/local/bin/php /var/www/html/bin/console sale:customer:stat:make
+  0  3  *  *  *  root /usr/local/bin/php /var/www/html/bin/console discount:disable:expired
