@@ -11,7 +11,9 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use App\Components\User\UserFullNameDto;
 use App\Controller\UserCreateAction;
+use App\Controller\UserFullNameAction;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,6 +32,12 @@ use Symfony\Component\Validator\Constraints as Assert;
             uriTemplate: 'users/my',
             controller: UserCreateAction::class,
             name: 'createUser'
+        ),
+        new Post(
+            uriTemplate: 'users/full-name',
+            controller: UserFullNameAction::class,
+            input: UserFullNameDto::class,
+            name: 'fullName'
         )
     ],
     normalizationContext: ['groups' => ['user:read']],

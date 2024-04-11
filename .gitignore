@@ -11,3 +11,8 @@
 
 # phpStorm fayli
 /.idea
+
+# docker
+/docker/mysql/db
+/docker/nginx/logs
+/docker/php/bash_history
