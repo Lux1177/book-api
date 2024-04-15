@@ -16,3 +16,6 @@
 /docker/mysql/db
 /docker/nginx/logs
 /docker/php/bash_history
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

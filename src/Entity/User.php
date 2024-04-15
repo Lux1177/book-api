@@ -19,6 +19,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -38,6 +39,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             controller: UserFullNameAction::class,
             input: UserFullNameDto::class,
             name: 'fullName'
+        ),
+        new Post(
+            uriTemplate: 'users/auth',
+            name: 'auth'
         )
     ],
     normalizationContext: ['groups' => ['user:read']],
@@ -52,7 +57,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 #[ApiFilter(OrderFilter::class, properties: ['id'])]
 #[ApiFilter(DateFilter::class, properties: ['createdAt'])]
-class User implements PasswordAuthenticatedUserInterface
+class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -183,5 +188,14 @@ class User implements PasswordAuthenticatedUserInterface
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 }
