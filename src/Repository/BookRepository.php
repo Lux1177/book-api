@@ -21,6 +21,16 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+        public function findOneByText(string $text): array
+        {
+            return $this->createQueryBuilder('b')
+                ->andWhere('b.text like :val')
+                ->setParameter('val', '%' . $text . '%')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+
     //    /**
     //     * @return Book[] Returns an array of Book objects
     //     */

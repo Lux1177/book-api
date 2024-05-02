@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\FindBookByCategoryAction;
+use App\Controller\FindBooksByTextAction;
 use App\Repository\BookRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +13,29 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ApiResource(
+    operations: [
+        new GetCollection(
+            uriTemplate: 'books/by-category',
+            controller: FindBookByCategoryAction::class,
+            openapiContext: [
+                'parameters' => [
+                    [
+                        'in' => 'query',
+                        'name' => 'categoryId',
+                        'schema' => [
+                            'type' => 'integer'
+                        ]
+                    ]
+                ]
+            ],
+            name: 'byCategory'
+        ),
+        new GetCollection(
+            uriTemplate: 'books/by-text/find',
+            controller: FindBooksByTextAction::class,
+            name: 'byText'
+        )
+    ],
     normalizationContext: ['groups' => ['book:read']],
     denormalizationContext: ['groups' => ['book:write']]
 )]
@@ -30,6 +56,7 @@ class Book
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['book:write'])]
     private ?string $text = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
